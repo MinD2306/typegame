@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        #showcode{
+            width: 200px;
+            height:200px;
+            font-size:80px;
+            color:#fff;
+            line-height: 200px;
+            text-align: center;
+            position: fixed;
+            left:calc(50% - 100px);
+            top:calc(300px);
+            background-color: rgba(0,0,0,0.6);
+        }
+    </style>
+    <link rel="stylesheet" href="alert.css">
+    <script src="alert.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="showcode"></div>
+    <script>
+        var score=0;
+
+        function randomcode(){
+            var randomnum=97+parseInt(Math.random()*26)  //parseInt向下取整 Math.random()从0到1 不包含1
+            var randomstr=String.fromCharCode(randomnum);
+            var ucstr=randomstr.toUpperCase();  //大写
+            console.log(ucstr)
+            var showcodediv =document.querySelector("#showcode");
+            showcodediv.innerHTML=ucstr;
+        }
+        randomcode();
+        var body=document.body;
+        body.onkeypress=function(event){
+            console.log(event);
+            var keycode= event.key.toUpperCase();
+            var showcodediv=document.querySelector("#showcode");
+           
+            if(keycode==showcodediv.innerHTML){
+                console.log("打字正确，得分加1");
+                score++;
+                randomcode();
+            }
+        }
+
+        var fn10=function(){
+            // alert("分数是"+score);
+            zAlert({
+                title:"得分",
+                content:"您的得分是"+score,
+                confirmfn:function(){
+                    score=0;
+                    setTimeout(fn10,5000)
+                },
+                cancelfn:function(){
+                    score=0;
+                    setTimeout(fn10,5000)
+                }
+            })
+        }
+        setTimeout(fn10,5000)
+    </script>
+</body>
+</html>
